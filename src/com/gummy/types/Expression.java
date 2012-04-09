@@ -5,11 +5,16 @@ import java.io.Serializable;
 import com.gummy.core.Environment;
 import com.gummy.core.InterpreterException;
 import com.gummy.core.Marshall;
+import com.gummy.forms.Application;
 import com.gummy.forms.Assignment;
 import com.gummy.forms.Begin;
 import com.gummy.forms.Definition;
 import com.gummy.forms.If;
 
+/**
+ * @author Dom
+ * 
+ */
 public abstract class Expression implements Serializable {
 
 	private static final long serialVersionUID = 332756773800670061L;
@@ -70,20 +75,16 @@ public abstract class Expression implements Serializable {
 			// the special forms. If it was a special form, pass the raw
 			// expression as arguments, or else create an application.
 			Pair pair = (Pair) o;
-			Object car = analyze(pair.getCar());
 
-			if (car instanceof Expression) {
-				// If a special form was found, return it.
-				Object form = getSpecialForm(car,
+			if (pair.getCar() instanceof Symbol) {
+				Object form = getSpecialForm(pair.getCar(),
 						Marshall.getPair(pair.getCdr()));
 				if (form != null) {
 					return form;
 				}
-				// return new application
-				return null;
-			} else {
-				return new Pair(car, analyzePair(pair.getCdr()));
 			}
+
+			return new Application(pair);
 
 		} else {
 			return o;
@@ -113,18 +114,20 @@ public abstract class Expression implements Serializable {
 	}
 
 	/**
-	 * This evaluates a pair, determining if it is a special form, and if so
-	 * returning the special form expression. The car of the pair must be a
-	 * symbol. The pair expressions should not have been analyzed yet.
+	 * This evaluates a first symbol of a pair and the arguments, determining if
+	 * it is a special form, and if so returning the special form expression.
+	 * The car of the pair must be a symbol. *
 	 * 
-	 * @param pair
-	 *            The pair object.
+	 * @param car
+	 *            The car of the initial pair, the symbol representing the form
+	 * @param cdr
+	 *            The remaining arguments
 	 * @return The special form object if it matches any, or else null.
 	 */
 	public static Object getSpecialForm(Object car, Pair cdr) {
-		if (car instanceof Variable) {
+		if (car instanceof Symbol) {
 			// Determine the function name from the symbol
-			String form = ((Variable) car).getSymbol().getSymbol();
+			String form = ((Symbol) car).getSymbol();
 
 			if ("define".equals(form)) {
 				// Call define with a raw symbol / pair as the first argument
