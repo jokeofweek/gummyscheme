@@ -1,8 +1,6 @@
-package com.gummy.primitives;
+package com.gummy.types;
 
 import com.gummy.core.Environment;
-import com.gummy.types.Expression;
-import com.gummy.types.Symbol;
 
 public class Variable extends Expression {
 

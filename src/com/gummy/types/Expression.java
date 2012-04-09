@@ -5,11 +5,10 @@ import java.io.Serializable;
 import com.gummy.core.Environment;
 import com.gummy.core.InterpreterException;
 import com.gummy.core.Marshall;
-import com.gummy.primitives.Assignment;
-import com.gummy.primitives.Begin;
-import com.gummy.primitives.Definition;
-import com.gummy.primitives.If;
-import com.gummy.primitives.Variable;
+import com.gummy.forms.Assignment;
+import com.gummy.forms.Begin;
+import com.gummy.forms.Definition;
+import com.gummy.forms.If;
 
 public abstract class Expression implements Serializable {
 
