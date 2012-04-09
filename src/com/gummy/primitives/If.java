@@ -25,6 +25,10 @@ import com.gummy.types.Pair;
  */
 public class If extends Expression {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3712254821553791491L;
 	private List<Object> arguments;
 
 	public If(Object arguments) {

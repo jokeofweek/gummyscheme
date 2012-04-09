@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.PushbackInputStream;
 import java.util.Map.Entry;
 import java.util.Hashtable;
-import java.util.Map;
-
 import com.gummy.core.InterpreterException;
 import com.gummy.types.Constant;
 import com.gummy.types.Pair;

@@ -15,6 +15,10 @@ import com.gummy.types.Pair;
  */
 public class Definition extends Expression {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5407087055188614410L;
 	private Pair arguments;
 
 	public Definition(Object arguments) {

@@ -8,6 +8,8 @@ import com.gummy.core.Writer;
 
 public class Pair extends Expression {
 
+	private static final long serialVersionUID = -4309265489869572010L;
+
 	public static final Pair EMPTY_LIST = new Pair(null, null);
 	
 	private Object car, cdr;

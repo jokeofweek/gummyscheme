@@ -6,6 +6,10 @@ import com.gummy.types.Symbol;
 
 public class Variable extends Expression {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8708738631680544069L;
 	private Symbol symbol;
 
 	/**

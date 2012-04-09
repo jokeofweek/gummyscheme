@@ -1,5 +1,7 @@
 package com.gummy.types;
 
+import java.io.Serializable;
+
 import com.gummy.core.Environment;
 import com.gummy.core.InterpreterException;
 import com.gummy.core.Marshall;
@@ -9,7 +11,9 @@ import com.gummy.primitives.Definition;
 import com.gummy.primitives.If;
 import com.gummy.primitives.Variable;
 
-public abstract class Expression {
+public abstract class Expression implements Serializable {
+
+	private static final long serialVersionUID = 332756773800670061L;
 
 	/**
 	 * This evaluates the expression within a given environment.
@@ -139,7 +143,7 @@ public abstract class Expression {
 			} else if ("quote".equals(form)) {
 				// Pass the first argument to the form and analyze it.
 				return new Quote(cdr.getCar()).analyze();
-			} else if ("begin".equals(form)){
+			} else if ("begin".equals(form)) {
 				// Pass all analyzed avlues to the Begin.
 				return new Begin(analyzePair(cdr));
 			}

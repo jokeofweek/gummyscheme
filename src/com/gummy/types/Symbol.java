@@ -1,8 +1,9 @@
 package com.gummy.types;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
-public class Symbol {
+public class Symbol implements Serializable {
 
 	private static Hashtable<String, Symbol> symbols = new Hashtable<String, Symbol>();
 

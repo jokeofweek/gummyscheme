@@ -30,6 +30,10 @@ import com.gummy.types.Pair;
  */
 public class Begin extends Expression {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8042953803317300911L;
 	public List<Object> expressions;
 
 	public Begin(Object arguments) {
