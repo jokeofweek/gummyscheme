@@ -5,6 +5,7 @@ import com.gummy.core.InterpreterException;
 import com.gummy.core.Marshall;
 import com.gummy.primitives.Assignment;
 import com.gummy.primitives.Definition;
+import com.gummy.primitives.If;
 import com.gummy.primitives.Variable;
 
 public abstract class Expression {
@@ -131,6 +132,9 @@ public abstract class Expression {
 				// and then all other values as analyzed values.
 				return new Assignment(new Pair(cdr.getCar(),
 						analyzePair(cdr.getCdr())));
+			} else if ("if".equals(form)) {
+				// Pass all analyzed avlues to the If.
+				return new If(analyzePair(cdr));
 			}
 		}
 		return null;
