@@ -6,7 +6,7 @@ import java.util.List;
 import com.gummy.core.Environment;
 import com.gummy.core.Writer;
 
-public class Pair extends Expression {
+public class Pair {
 
 	private static final long serialVersionUID = -4309265489869572010L;
 
@@ -53,22 +53,6 @@ public class Pair extends Expression {
 		return objects;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gummy.primitives.Expression#eval(com.gummy.core.Environment)
-	 */
-	@Override
-	public Object eval(Environment environment) {
-		// Return empty list to prevent changing the reference.
-		if (this == Pair.EMPTY_LIST)
-			return Pair.EMPTY_LIST;
-		
-		// Evaluates each component of the pair.
-		return new Pair(Expression.eval(car, environment),
-				Expression.eval(cdr, environment));
-	}
-	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
