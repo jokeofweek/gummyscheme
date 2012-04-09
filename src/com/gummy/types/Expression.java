@@ -1,10 +1,10 @@
-package com.gummy.primitives;
+package com.gummy.types;
 
 import com.gummy.core.Environment;
 import com.gummy.core.InterpreterException;
 import com.gummy.core.Marshall;
-import com.gummy.types.Pair;
-import com.gummy.types.Symbol;
+import com.gummy.primitives.Definition;
+import com.gummy.primitives.Variable;
 
 public abstract class Expression {
 
@@ -51,8 +51,10 @@ public abstract class Expression {
 		if (o instanceof Symbol) {
 			// Symbol -> Variable
 			return new Variable((Symbol) o);
-		}
-		if (o instanceof Pair) {
+		} else if (o instanceof AnalyzedForm) {
+			// AnalyzedForm -> result of analyze
+			return ((AnalyzedForm) o).analyze();
+		} else if (o instanceof Pair) {
 			// Special case for empty lists
 			if (o == Pair.EMPTY_LIST) {
 				return o;

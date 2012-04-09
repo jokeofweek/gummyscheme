@@ -3,6 +3,7 @@ package com.gummy.primitives;
 import com.gummy.core.Environment;
 import com.gummy.core.Marshall;
 import com.gummy.types.Constant;
+import com.gummy.types.Expression;
 import com.gummy.types.Pair;
 
 /**

@@ -9,7 +9,10 @@ import java.util.Map;
 import com.gummy.core.InterpreterException;
 import com.gummy.types.Constant;
 import com.gummy.types.Pair;
+import com.gummy.types.Quasiquote;
+import com.gummy.types.Quote;
 import com.gummy.types.Symbol;
+import com.gummy.types.Unquote;
 
 public class Reader {
 
@@ -26,7 +29,33 @@ public class Reader {
 		CHARACTER_MAPPING.put("newline", '\n');
 	}
 
+	/**
+	 * Reads an expression from an input stream.
+	 * 
+	 * @param in
+	 *            The stream to read from.
+	 * @return The expression read from the stream.
+	 * @throws IOException
+	 *             If an error occurs while reading.
+	 */
 	public static Object read(PushbackInputStream in) throws IOException {
+		return read(in, ReaderState.NORMAL);
+	}
+
+	/**
+	 * Reads an expression from an input stream using a given
+	 * {@link ReaderState} for processing rules.
+	 * 
+	 * @param in
+	 *            The stream to read from.
+	 * @param state
+	 *            The state to use when reading.
+	 * @return The expression read from the stream.
+	 * @throws IOException
+	 *             If an error occurs while reading.
+	 */
+	public static Object read(PushbackInputStream in, ReaderState state)
+			throws IOException {
 		if (!skipWhitespace(in))
 			return Constant.EOF;
 
@@ -34,11 +63,21 @@ public class Reader {
 		char start = (char) in.read();
 
 		if (start == '(') {
-			return readPair(in);
+			return readPair(in, state);
 		} else if (start == '"') {
 			return readString(in);
-		} else if ((int) start == -1){
+		} else if ((int) start == -1) {
 			return Constant.EOF;
+		} else if (start == '\'') {
+			return new Quote(read(in, ReaderState.QUOTE));
+		} else if (start == '`') {
+			return new Quasiquote(read(in, ReaderState.QUASIQUOTE));
+		} else if (start == ',') {
+			if (state != ReaderState.QUASIQUOTE) {
+				throw new InterpreterException(
+						"Cannot unquote value while not in quasiquote.");
+			}
+			return new Unquote(read(in, ReaderState.NORMAL));
 		} else {
 			// Unread the character and read a token.
 			in.unread((int) start);
@@ -51,6 +90,8 @@ public class Reader {
 	 * 
 	 * @param in
 	 *            The stream to read from.
+	 * @param state
+	 * 			  The current state of the reader.
 	 * @return The {@link Pair} object representing the pair read from the
 	 *         stream.
 	 * @throws IOException
@@ -58,8 +99,7 @@ public class Reader {
 	 * @throws InterpreterException
 	 *             If the pair is unbalanced.
 	 */
-	private static Object readPair(PushbackInputStream in)
-			throws IOException {
+	private static Object readPair(PushbackInputStream in, ReaderState state) throws IOException {
 		// Eat all whitespace
 		skipWhitespace(in);
 
@@ -76,7 +116,7 @@ public class Reader {
 
 		// If the character is a dot, it is a dotted pair and not a list.
 		if (((char) first) == '.') {
-			Object cdr = read(in);
+			Object cdr = read(in, state);
 
 			// Next token should be a closing parenthesis, we must eat it
 			skipWhitespace(in);
@@ -87,7 +127,7 @@ public class Reader {
 
 		// Unread the token and build the pair
 		in.unread(first);
-		return new Pair(read(in), readPair(in));
+		return new Pair(read(in, state), readPair(in, state));
 	}
 
 	/**
@@ -102,8 +142,7 @@ public class Reader {
 	 * @throws InterpreterException
 	 *             If the string is unterminated.
 	 */
-	private static char[] readString(PushbackInputStream in)
-			throws IOException {
+	private static char[] readString(PushbackInputStream in) throws IOException {
 		StringBuilder builder = new StringBuilder();
 		char c;
 
@@ -127,19 +166,18 @@ public class Reader {
 	 * @throws IOException
 	 *             If an error occurs while reading.
 	 */
-	private static String readToken(PushbackInputStream in)
-			throws IOException {
+	private static String readToken(PushbackInputStream in) throws IOException {
 
 		StringBuilder builder = new StringBuilder();
 		int c;
 
 		while ((c = in.read()) != -1) {
 			// When we hit an end of token character, unread it and exit
-			if (isEndOfTokenChar((char)c)){
+			if (isEndOfTokenChar((char) c)) {
 				in.unread(c);
 				break;
 			}
-			builder.append((char)c);
+			builder.append((char) c);
 		}
 
 		return builder.toString();
@@ -225,8 +263,8 @@ public class Reader {
 	 * @return True if the character is the end of a token or not.
 	 */
 	private static boolean isEndOfTokenChar(char c) {
-		return (c == ' ' || c == '\r' || c == '\n' || c == '\t'
-				|| c == ';' || c == ')' || c == '(');
+		return (c == ' ' || c == '\r' || c == '\n' || c == '\t' || c == ';'
+				|| c == ')' || c == '(');
 	}
 
 	/**
@@ -249,7 +287,8 @@ public class Reader {
 			curChar = (char) c;
 
 			// If character is not a whitespace character, unread and exit
-			if (curChar != ' ' && curChar != '\n' && curChar != '\r' && curChar != '\t') {
+			if (curChar != ' ' && curChar != '\n' && curChar != '\r'
+					&& curChar != '\t') {
 				in.unread(c);
 				return true;
 			}

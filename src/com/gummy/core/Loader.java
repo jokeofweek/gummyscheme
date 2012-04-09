@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.PushbackInputStream;
 
-import com.gummy.primitives.Expression;
 import com.gummy.types.Constant;
+import com.gummy.types.Expression;
 
 public class Loader {
 

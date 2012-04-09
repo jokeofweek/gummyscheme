@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.gummy.core.Environment;
 import com.gummy.core.Writer;
-import com.gummy.primitives.Expression;
 
 public class Pair extends Expression {
 
@@ -59,6 +58,10 @@ public class Pair extends Expression {
 	 */
 	@Override
 	public Object eval(Environment environment) {
+		// Return empty list to prevent changing the reference.
+		if (this == Pair.EMPTY_LIST)
+			return Pair.EMPTY_LIST;
+		
 		// Evaluates each component of the pair.
 		return new Pair(Expression.eval(car, environment),
 				Expression.eval(cdr, environment));

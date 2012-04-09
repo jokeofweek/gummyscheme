@@ -1,6 +1,7 @@
 package com.gummy.primitives;
 
 import com.gummy.core.Environment;
+import com.gummy.types.Expression;
 import com.gummy.types.Symbol;
 
 public class Variable extends Expression {
