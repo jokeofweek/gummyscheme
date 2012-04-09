@@ -13,12 +13,10 @@ import com.gummy.core.Loader;
 public class REPL {
 
 	private Environment global;
-	private PrintWriter out;
 	
 	public REPL(){
 		global = new Environment();
 		//Environment.initialize(global);
-		out = new PrintWriter(System.out);
 	}
 	
 	public void run() throws IOException{
@@ -27,7 +25,7 @@ public class REPL {
 		while (true){
 			System.out.print("> ");
 			Loader.load(new PushbackInputStream(new ByteArrayInputStream(
-					reader.readLine().getBytes())), out, global);
+					reader.readLine().getBytes())), System.out, global);
 		}
 	}
 	
