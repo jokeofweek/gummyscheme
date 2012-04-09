@@ -3,6 +3,7 @@ package com.gummy.types;
 import com.gummy.core.Environment;
 import com.gummy.core.InterpreterException;
 import com.gummy.core.Marshall;
+import com.gummy.primitives.Assignment;
 import com.gummy.primitives.Definition;
 import com.gummy.primitives.Variable;
 
@@ -124,6 +125,11 @@ public abstract class Expression {
 				// Call define with a raw symbol / pair as the first argument
 				// and then all other values as analyzed values.
 				return new Definition(new Pair(cdr.getCar(),
+						analyzePair(cdr.getCdr())));
+			} else if ("set!".equals(form)) {
+				// Call set! with a raw symbol / pair as the first argument
+				// and then all other values as analyzed values.
+				return new Assignment(new Pair(cdr.getCar(),
 						analyzePair(cdr.getCdr())));
 			}
 		}
