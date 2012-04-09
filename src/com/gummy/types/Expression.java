@@ -84,7 +84,7 @@ public abstract class Expression implements Serializable {
 				}
 			}
 
-			return new Application(pair);
+			return new Application(analyzePair(pair));
 
 		} else {
 			return o;

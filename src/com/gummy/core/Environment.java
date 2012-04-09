@@ -2,6 +2,7 @@ package com.gummy.core;
 
 import java.util.Hashtable;
 
+import com.gummy.primitives.list.Cons;
 import com.gummy.types.Symbol;
 
 public class Environment {
@@ -26,6 +27,17 @@ public class Environment {
 	public Environment(Environment parent) {
 		this.parent = parent;
 		this.values = new Hashtable<Symbol, Object>();
+	}
+
+	/**
+	 * This initializes an environment with all the default procedures.
+	 * 
+	 * @param environment
+	 *            The environment to initialize.
+	 */
+	public static void initialize(Environment environment) {
+		environment.defineValue(Symbol.getSymbol("cons"), new Cons());
+		environment.defineValue(Symbol.getSymbol("list"), new com.gummy.primitives.list.List());
 	}
 
 	/**

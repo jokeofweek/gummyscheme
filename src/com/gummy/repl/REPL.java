@@ -18,7 +18,7 @@ public class REPL {
 
 	public REPL() {
 		global = new Environment();
-		// Environment.initialize(global);
+		Environment.initialize(global);
 	}
 
 	/**
