@@ -32,7 +32,7 @@ public class GummyCompiler {
 				} catch (IOException e) {
 				}
 			}
-			
+
 			System.exit(1);
 		}
 
@@ -55,7 +55,15 @@ public class GummyCompiler {
 
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(newFileName));
+
+			long startTime = System.currentTimeMillis();
+
 			Compiler.compile(in, out);
+
+			System.out.println("Compilation completed in : "
+					+ (System.currentTimeMillis() - startTime)
+					+ " milliseconds.");
+			System.out.println("Output file: " + newFileName);
 		} catch (IOException io) {
 			System.out
 					.println("Could not compile the gum file.\nError Message:"
