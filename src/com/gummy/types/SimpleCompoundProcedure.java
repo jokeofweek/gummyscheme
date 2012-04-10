@@ -35,7 +35,7 @@ public class SimpleCompoundProcedure extends Procedure {
 	 * java.util.List)
 	 */
 	@Override
-	public Object apply(Environment environment, List<Object> arguments) {
+	public Object apply(Environment callingScope, List<Object> arguments) {
 		// Make sure we have the right number of arguments
 		if (arguments.size() != this.bindings.size()) {
 			throw new InterpreterException("Non-matching number of arguments. "
@@ -48,7 +48,7 @@ public class SimpleCompoundProcedure extends Procedure {
 		// Iterate through the arguments, attaching them to bindings
 		for (int i = 0; i < arguments.size(); i++) {
 			scope.defineValue(Marshall.getSymbol(bindings.get(i)),
-					Expression.eval(arguments.get(i), outerScope));
+					Expression.eval(arguments.get(i), callingScope));
 		}
 
 		// Evaluate all statements apart the last one

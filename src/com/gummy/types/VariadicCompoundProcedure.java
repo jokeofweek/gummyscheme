@@ -35,7 +35,7 @@ public class VariadicCompoundProcedure extends Procedure {
 	 * java.util.List)
 	 */
 	@Override
-	public Object apply(Environment environment, List<Object> arguments) {
+	public Object apply(Environment callingScope, List<Object> arguments) {
 		// Make sure we have the right number of arguments
 		if (arguments.size() < this.bindings.size() - 1) {
 			throw new InterpreterException(
@@ -49,14 +49,14 @@ public class VariadicCompoundProcedure extends Procedure {
 		// Iterate through the fixed, attaching them to bindings
 		for (int i = 0; i < bindings.size() - 1; i++) {
 			scope.defineValue(Marshall.getSymbol(bindings.get(i)),
-					Expression.eval(arguments.get(i), outerScope));
+					Expression.eval(arguments.get(i), callingScope));
 		}
 		// Attach the non-fixed elements to the varaidic binding
 		scope.defineValue(
 				Marshall.getSymbol(bindings.get(bindings.size() - 1)), Pair
 						.evaluateFromList(arguments.subList(
 								bindings.size() - 1, arguments.size()),
-								environment));
+								callingScope));
 
 		// Evaluate all statements apart the last one
 		for (int i = 0; i < expressions.size() - 1; i++)
