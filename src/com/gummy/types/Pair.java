@@ -11,7 +11,7 @@ public class Pair {
 	private static final long serialVersionUID = -4309265489869572010L;
 
 	public static final Pair EMPTY_LIST = new Pair(null, null);
-	
+
 	private Object car, cdr;
 
 	/**
@@ -53,24 +53,53 @@ public class Pair {
 		return objects;
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * This helper method creates a Pair object from a List of objects, and
+	 * evaluates each element during the conversion.
+	 * 
+	 * @param objects
+	 *            The list of objects to convert.
+	 * @param environment
+	 *            The environment to evaluate in.
+	 * @return A Pair containing the evaluated elements of the list.
+	 */
+	public static Pair evaluateFromList(List<Object> objects,
+			Environment environment) {
+		// Exit early for empty lists
+		if (objects.size() == 0)
+			return Pair.EMPTY_LIST;
+
+		// Iterate in reverse, evaluating each element and augmenting
+		// the pair
+		Pair pair = Pair.EMPTY_LIST;
+
+		for (int i = objects.size() - 1; i >= 0; i--) {
+			pair = new Pair(Expression.eval(objects.get(i), environment), pair);
+		}
+		
+		return pair;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		Pair pair = this;
-		
+
 		builder.append('(');
-		
+
 		// Iterate through each element adding the string representation
-		// until we reach either the empty list or a cons.	
-		while (pair != EMPTY_LIST){
+		// until we reach either the empty list or a cons.
+		while (pair != EMPTY_LIST) {
 			builder.append(Writer.getString(pair.getCar()));
-						
-			if (pair.getCdr() instanceof Pair){
+
+			if (pair.getCdr() instanceof Pair) {
 				pair = (Pair) pair.getCdr();
-				if (pair != Pair.EMPTY_LIST){
+				if (pair != Pair.EMPTY_LIST) {
 					builder.append(' ');
 				}
 			} else {
@@ -79,11 +108,11 @@ public class Pair {
 				break;
 			}
 		}
-		
+
 		builder.append(')');
-		
+
 		return builder.toString();
-		
+
 	}
 
 	public Object getCar() {

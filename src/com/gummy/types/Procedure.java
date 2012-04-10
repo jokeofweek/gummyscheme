@@ -1,10 +1,13 @@
 package com.gummy.types;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.gummy.core.Environment;
 
-public abstract class Procedure {
+public abstract class Procedure implements Serializable {
+
+	private static final long serialVersionUID = -2835581291629986308L;
 
 	/**
 	 * This invokes invokes a given procedure in an environment with a set of

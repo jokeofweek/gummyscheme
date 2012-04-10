@@ -39,6 +39,10 @@ public class Begin extends Expression {
 	public Begin(Object arguments) {
 		this.expressions = Pair.expand(Marshall.getPair(arguments));
 	}
+	
+	public Begin(List<Object> expressions){
+		this.expressions = expressions;
+	}
 
 	/* (non-Javadoc)
 	 * @see com.gummy.types.Expression#eval(com.gummy.core.Environment)

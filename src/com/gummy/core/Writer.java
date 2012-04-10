@@ -3,6 +3,7 @@ package com.gummy.core;
 import java.util.Map.Entry;
 
 import com.gummy.types.Pair;
+import com.gummy.types.Procedure;
 
 public class Writer {
 
@@ -28,6 +29,8 @@ public class Writer {
 			return "#\\" + o;
 		} else if (o == Pair.EMPTY_LIST) {
 			return "()";
+		} else if (o instanceof Procedure) {
+			return "<#procedure>";
 		}
 		
 		return o.toString();

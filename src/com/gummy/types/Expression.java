@@ -10,6 +10,7 @@ import com.gummy.forms.Assignment;
 import com.gummy.forms.Begin;
 import com.gummy.forms.Definition;
 import com.gummy.forms.If;
+import com.gummy.forms.Lambda;
 
 /**
  * @author Dom
@@ -146,8 +147,13 @@ public abstract class Expression implements Serializable {
 				// Pass the first argument to the form and analyze it.
 				return new Quote(cdr.getCar()).analyze();
 			} else if ("begin".equals(form)) {
-				// Pass all analyzed avlues to the Begin.
+				// Pass all analyzed values to the Begin.
 				return new Begin(analyzePair(cdr));
+			} else if ("lambda".equals(form)) {
+				// Pass the first argument as the bindings, and then
+				// the analyzed arguments as the result.
+				return new Lambda(cdr.getCar(),
+						Marshall.getPair(analyzePair(cdr.getCdr())));
 			}
 		}
 		return null;
