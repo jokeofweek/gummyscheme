@@ -24,6 +24,9 @@ public class Assignment extends Expression {
 		this.arguments = Marshall.getPair(arguments);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.gummy.types.Expression#eval(com.gummy.core.Environment)
+	 */
 	@Override
 	public Object eval(Environment environment) {
 		environment.updateValue(Marshall.getSymbol(arguments.getCar()),

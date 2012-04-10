@@ -11,6 +11,7 @@ import com.gummy.forms.Begin;
 import com.gummy.forms.Definition;
 import com.gummy.forms.If;
 import com.gummy.forms.Lambda;
+import com.gummy.forms.expansion.MacroDefinition;
 
 /**
  * @author Dom
@@ -81,6 +82,12 @@ public abstract class Expression implements Serializable {
 				Object form = getSpecialForm(pair.getCar(),
 						Marshall.getPair(pair.getCdr()));
 				if (form != null) {
+					// If the form returned is an expansion, keep on expanding
+					// until we reach a non-expansion
+					while (form instanceof Expansion) {
+						form = ((Expansion) form).expand(Marshall.getPair(pair
+								.getCdr()));
+					}
 					return form;
 				}
 			}
@@ -154,6 +161,8 @@ public abstract class Expression implements Serializable {
 				// the analyzed arguments as the result.
 				return new Lambda(cdr.getCar(),
 						Marshall.getPair(analyzePair(cdr.getCdr())));
+			} else if ("define-macro".equals(form)){
+				return MacroDefinition.getInstance();
 			}
 		}
 		return null;

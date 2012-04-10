@@ -72,12 +72,11 @@ public class Lambda extends Expression {
 			// not.
 			Pair pair = this.bindings;
 			while (true) {
-				if (pair.getCdr() instanceof Pair) {
+				if (pair == Pair.EMPTY_LIST) {
+					this.variadic = false;
+					break;
+				} else if (pair.getCdr() instanceof Pair) {
 					pair = (Pair) pair.getCdr();
-					if (pair == Pair.EMPTY_LIST) {
-						this.variadic = false;
-						break;
-					}
 				} else {
 					this.variadic = true;
 					break;

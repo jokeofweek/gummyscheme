@@ -1,5 +1,6 @@
 package com.gummy.core;
 
+import com.gummy.types.AnalyzedForm;
 import com.gummy.types.Procedure;
 import com.gummy.types.Symbol;
 import com.gummy.types.Pair;
@@ -55,6 +56,13 @@ public class Marshall {
 			return (Symbol) o;
 		else
 			throw new TypeException(o, Symbol.class);
+	}
+	
+	public static AnalyzedForm getAnalyzedForm(Object o){
+		if (o instanceof AnalyzedForm)
+			return (AnalyzedForm) o;
+		else
+			throw new TypeException(o, AnalyzedForm.class);
 	}
 
 }
