@@ -1,7 +1,10 @@
 package com.gummy.core;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
+import com.gummy.primitives.Apply;
 import com.gummy.primitives.io.Load;
 import com.gummy.primitives.list.Car;
 import com.gummy.primitives.list.Cdr;
@@ -41,15 +44,24 @@ public class Environment {
 	 *            The environment to initialize.
 	 */
 	public static void initialize(Environment environment) {
+		environment.defineValue(Symbol.getSymbol("apply"), new Apply());
+		
 		environment.defineValue(Symbol.getSymbol("cons"), new Cons());
 		environment.defineValue(Symbol.getSymbol("list"),
 				new com.gummy.primitives.list.List());
 		environment.defineValue(Symbol.getSymbol("car"), new Car());
 		environment.defineValue(Symbol.getSymbol("cdr"), new Cdr());
 
-		environment.defineValue(Symbol.getSymbol("load"), new Load());
+		Load load = new Load();
+		environment.defineValue(Symbol.getSymbol("load"), load);
 
 		environment.defineValue(Symbol.getSymbol("eqv?"), new Eqv());
+
+		// Load the core file
+		List<Object> arguments = new ArrayList<Object>(1);
+		arguments.add("core/core.scm".toCharArray());
+		load.apply(environment, arguments);
+
 	}
 
 	/**
