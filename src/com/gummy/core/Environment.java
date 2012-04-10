@@ -6,6 +6,7 @@ import com.gummy.primitives.io.Load;
 import com.gummy.primitives.list.Car;
 import com.gummy.primitives.list.Cdr;
 import com.gummy.primitives.list.Cons;
+import com.gummy.primitives.predicates.Eqv;
 import com.gummy.types.Procedure;
 import com.gummy.types.Symbol;
 
@@ -47,6 +48,8 @@ public class Environment {
 		environment.defineValue(Symbol.getSymbol("cdr"), new Cdr());
 
 		environment.defineValue(Symbol.getSymbol("load"), new Load());
+
+		environment.defineValue(Symbol.getSymbol("eqv?"), new Eqv());
 	}
 
 	/**
