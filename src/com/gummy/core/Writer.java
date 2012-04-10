@@ -20,19 +20,22 @@ public class Writer {
 			return (o == Boolean.TRUE) ? "#t" : "#f";
 		} else if (o instanceof Character) {
 			// Look up special cases, or else just return character
-			for (Entry<String, Character> entry : Reader.CHARACTER_MAPPING.entrySet()){
-				if (o == entry.getValue()){
+			for (Entry<String, Character> entry : Reader.CHARACTER_MAPPING
+					.entrySet()) {
+				if (o == entry.getValue()) {
 					return "#\\" + entry.getKey();
 				}
 			}
-			
+
 			return "#\\" + o;
+		} else if (o instanceof char[] || o instanceof Character[]) {
+			return "\"" + new String((char[])o) + "\"";
 		} else if (o == Pair.EMPTY_LIST) {
 			return "()";
 		} else if (o instanceof Procedure) {
 			return "<#procedure>";
 		}
-		
+
 		return o.toString();
 	}
 
