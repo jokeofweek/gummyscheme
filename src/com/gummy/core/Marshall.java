@@ -34,6 +34,22 @@ public class Marshall {
 			throw new TypeException(o, Procedure.class);
 	}
 
+	public static char[] getSchemeString(Object o) {
+		if (o instanceof char[])
+			return (char[]) o;
+		else
+			throw new TypeException(o, String.class);
+	}
+
+	public static String getString(Object o) {
+		if (o instanceof char[])
+			return new String(((char[]) o));
+		else if (o instanceof String)
+			return (String) o;
+		else
+			throw new TypeException(o, String.class);
+	}
+
 	public static Symbol getSymbol(Object o) {
 		if (o instanceof Symbol)
 			return (Symbol) o;

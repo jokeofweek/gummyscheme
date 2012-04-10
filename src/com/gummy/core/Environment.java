@@ -2,6 +2,7 @@ package com.gummy.core;
 
 import java.util.Hashtable;
 
+import com.gummy.primitives.io.Load;
 import com.gummy.primitives.list.Car;
 import com.gummy.primitives.list.Cdr;
 import com.gummy.primitives.list.Cons;
@@ -40,12 +41,12 @@ public class Environment {
 	 */
 	public static void initialize(Environment environment) {
 		environment.defineValue(Symbol.getSymbol("cons"), new Cons());
-		environment.defineValue(Symbol.getSymbol("list"), new com.gummy.primitives.list.List());
-		
-		Procedure car = new Car();
-		Procedure cdr = new Cdr();
-		environment.defineValue(Symbol.getSymbol("car"), car);
-		environment.defineValue(Symbol.getSymbol("cdr"), cdr);
+		environment.defineValue(Symbol.getSymbol("list"),
+				new com.gummy.primitives.list.List());
+		environment.defineValue(Symbol.getSymbol("car"), new Car());
+		environment.defineValue(Symbol.getSymbol("cdr"), new Cdr());
+
+		environment.defineValue(Symbol.getSymbol("load"), new Load());
 	}
 
 	/**
