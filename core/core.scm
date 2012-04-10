@@ -39,3 +39,13 @@
 (define cddadr (compose cddr cadr))
 (define cdddar (compose cddr cdar))
 (define cddddr (compose cddr cddr))
+
+(define (null? obj)
+  (eqv? obj '()))
+
+(define (boolean? obj)
+  (if (eqv? obj #t)
+      #t
+	(if (eqv? obj #f)
+	    #t
+      #f)))
