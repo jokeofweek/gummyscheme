@@ -13,7 +13,7 @@ public abstract class Procedure {
 	 * @param environment
 	 *            The environment to use as scope.
 	 * @param arguments
-	 *            The arguments apssed to the procedure.
+	 *            The arguments passed to the procedure.
 	 */
 	public abstract Object apply(Environment environment, List<Object> arguments);
 
