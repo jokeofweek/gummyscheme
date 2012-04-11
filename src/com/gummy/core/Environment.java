@@ -5,7 +5,12 @@ import java.util.Hashtable;
 import java.util.List;
 
 import com.gummy.primitives.Apply;
+import com.gummy.primitives.io.CloseInputPort;
+import com.gummy.primitives.io.CloseOutputPort;
 import com.gummy.primitives.io.Load;
+import com.gummy.primitives.io.OpenInputFile;
+import com.gummy.primitives.io.OpenOutputFile;
+import com.gummy.primitives.io.Read;
 import com.gummy.primitives.list.Car;
 import com.gummy.primitives.list.Cdr;
 import com.gummy.primitives.list.Cons;
@@ -52,8 +57,14 @@ public class Environment {
 		environment.defineValue(Symbol.getSymbol("car"), new Car());
 		environment.defineValue(Symbol.getSymbol("cdr"), new Cdr());
 
+		// IO Procedures
 		Load load = new Load();
 		environment.defineValue(Symbol.getSymbol("load"), load);
+		environment.defineValue(Symbol.getSymbol("read"), new Read());
+		environment.defineValue(Symbol.getSymbol("open-input-file"), new OpenInputFile());
+		environment.defineValue(Symbol.getSymbol("open-output-file"), new OpenOutputFile());
+		environment.defineValue(Symbol.getSymbol("close-input-port"), new CloseInputPort());
+		environment.defineValue(Symbol.getSymbol("close-output-port"), new CloseOutputPort());
 
 		environment.defineValue(Symbol.getSymbol("eqv?"), new Eqv());
 

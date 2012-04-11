@@ -1,5 +1,8 @@
 package com.gummy.core;
 
+import java.io.PrintStream;
+import java.io.PushbackInputStream;
+
 import com.gummy.types.AnalyzedForm;
 import com.gummy.types.Procedure;
 import com.gummy.types.Symbol;
@@ -65,4 +68,17 @@ public class Marshall {
 			throw new TypeException(o, AnalyzedForm.class);
 	}
 
+	public static PushbackInputStream getInputPort(Object o){
+		if (o instanceof PushbackInputStream)
+			return (PushbackInputStream) o;
+		else
+			throw new TypeException(o, PushbackInputStream.class);
+	}
+	
+	public static PrintStream getOutputPort(Object o){
+		if (o instanceof PrintStream)
+			return (PrintStream) o;
+		else
+			throw new TypeException(o, PrintStream.class);
+	}
 }
