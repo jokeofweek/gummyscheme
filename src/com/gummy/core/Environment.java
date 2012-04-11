@@ -10,7 +10,9 @@ import com.gummy.primitives.io.CloseOutputPort;
 import com.gummy.primitives.io.Load;
 import com.gummy.primitives.io.OpenInputFile;
 import com.gummy.primitives.io.OpenOutputFile;
+import com.gummy.primitives.io.PeekChar;
 import com.gummy.primitives.io.Read;
+import com.gummy.primitives.io.ReadChar;
 import com.gummy.primitives.list.Car;
 import com.gummy.primitives.list.Cdr;
 import com.gummy.primitives.list.Cons;
@@ -61,6 +63,8 @@ public class Environment {
 		Load load = new Load();
 		environment.defineValue(Symbol.getSymbol("load"), load);
 		environment.defineValue(Symbol.getSymbol("read"), new Read());
+		environment.defineValue(Symbol.getSymbol("read-char"), new ReadChar());
+		environment.defineValue(Symbol.getSymbol("peek-char"), new PeekChar());
 		environment.defineValue(Symbol.getSymbol("open-input-file"), new OpenInputFile());
 		environment.defineValue(Symbol.getSymbol("open-output-file"), new OpenOutputFile());
 		environment.defineValue(Symbol.getSymbol("close-input-port"), new CloseInputPort());

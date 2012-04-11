@@ -89,7 +89,7 @@ public class Reader {
 	 * @param in
 	 *            The stream to read from.
 	 * @param state
-	 * 			  The current state of the reader.
+	 *            The current state of the reader.
 	 * @return The {@link Pair} object representing the pair read from the
 	 *         stream.
 	 * @throws IOException
@@ -97,7 +97,8 @@ public class Reader {
 	 * @throws InterpreterException
 	 *             If the pair is unbalanced.
 	 */
-	private static Object readPair(PushbackInputStream in, ReaderState state) throws IOException {
+	private static Object readPair(PushbackInputStream in, ReaderState state)
+			throws IOException {
 		// Eat all whitespace
 		skipWhitespace(in);
 
@@ -295,4 +296,39 @@ public class Reader {
 		return false;
 	}
 
+	/**
+	 * This reads a single character from an input stream.
+	 * 
+	 * @param in
+	 *            The stream to read from.
+	 * @return A character, or the EOF object if we have reached end of file.
+	 * @throws IOException
+	 *             if an error occurs while reading.
+	 */
+	public static Object readChar(PushbackInputStream in) throws IOException {
+		int read = in.read();
+		if (read == -1)
+			return Constant.EOF;
+		else
+			return (char) read;
+	}
+
+	/**
+	 * This peeks a single character from an input stream.
+	 * 
+	 * @param in
+	 *            The stream to read from.
+	 * @return A character, or the EOF object if we have reached end of file.
+	 * @throws IOException
+	 *             if an error occurs while reading.
+	 */
+	public static Object peekChar(PushbackInputStream in) throws IOException {
+		int read = in.read();
+		if (read == -1) {
+			return Constant.EOF;
+		} else {
+			in.unread(read);
+			return (char) read;
+		}
+	}
 }
