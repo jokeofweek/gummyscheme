@@ -23,8 +23,8 @@ public class VariadicCompoundProcedure extends Procedure {
 
 	public VariadicCompoundProcedure(Pair bindings, Pair expressions,
 			Environment outerScope) {
-		this.bindings = Pair.expand(bindings);
-		this.expressions = Pair.expand(expressions);
+		this.bindings = bindings.expand();
+		this.expressions = expressions.expand();
 		this.outerScope = outerScope;
 	}
 

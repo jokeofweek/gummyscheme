@@ -34,9 +34,10 @@ public class Pair extends Expression {
 	 *            The {@link Pair} to expand.
 	 * @return The {@link List} which is represented by the pair.
 	 */
-	public static List<Object> expand(Pair pair) {
+	public List<Object> expand() {
 		List<Object> objects = new ArrayList<Object>();
-
+		Pair pair = this;
+		
 		// Iterate through until we either reach a pair and not a list,
 		// or we reach the empty list.
 		while (pair != Pair.EMPTY_LIST) {

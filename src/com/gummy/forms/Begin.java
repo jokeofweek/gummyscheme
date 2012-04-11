@@ -35,20 +35,49 @@ public class Begin extends Expression {
 	 */
 	private static final long serialVersionUID = 8042953803317300911L;
 	public List<Object> expressions;
+	public boolean extendEnvironment;
 
-	public Begin(Object arguments) {
-		this.expressions = Pair.expand(Marshall.getPair(arguments));
+	/**
+	 * This wraps a set of expressions in a Begin clause and also allows you to
+	 * specify that the environment should be extended before evaluating.
+	 * 
+	 * @param arguments
+	 *            The expressions that make up the Begin.
+	 * @param extendEnvironment
+	 *            If this is true, an extension of the environment will be
+	 *            created upon evaluation and will be used as context.
+	 */
+	public Begin(Object arguments, boolean extendEnvironment) {
+		this.expressions = Marshall.getPair(arguments).expand();
+		this.extendEnvironment = extendEnvironment;
 	}
-	
-	public Begin(List<Object> expressions){
+
+	/**
+	 * This wraps a set of expressions in a Begin clause and also allows you to
+	 * specify that the environment should be extended before evaluating.
+	 * 
+	 * @param expressions
+	 *            The expressions that make up the Begin.
+	 * @param extendEnvironment
+	 *            If this is true, an extension of the environment will be
+	 *            created upon evaluation and will be used as context.
+	 */
+	public Begin(List<Object> expressions, boolean extendEnvironment) {
 		this.expressions = expressions;
+		this.extendEnvironment = extendEnvironment;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.gummy.types.Expression#eval(com.gummy.core.Environment)
 	 */
 	@Override
 	public Object eval(Environment environment) {
+		// Extend the environment if necessary.
+		if (extendEnvironment)
+			environment = new Environment(environment);
+
 		// Evaluate all expressions apart the last one in the current scope
 		for (int i = 0; i < expressions.size() - 1; i++)
 			Expression.eval(expressions.get(i), environment);

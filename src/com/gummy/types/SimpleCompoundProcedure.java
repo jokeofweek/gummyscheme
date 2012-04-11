@@ -23,8 +23,8 @@ public class SimpleCompoundProcedure extends Procedure {
 
 	public SimpleCompoundProcedure(Pair bindings, Pair expressions,
 			Environment outerScope) {
-		this.bindings = Pair.expand(bindings);
-		this.expressions = Pair.expand(expressions);
+		this.bindings = bindings.expand();;
+		this.expressions = expressions.expand();
 		this.outerScope = outerScope;
 	}
 

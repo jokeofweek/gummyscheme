@@ -11,6 +11,7 @@ import com.gummy.forms.Begin;
 import com.gummy.forms.Definition;
 import com.gummy.forms.If;
 import com.gummy.forms.Lambda;
+import com.gummy.forms.expansion.Let;
 import com.gummy.forms.expansion.MacroDefinition;
 
 /**
@@ -148,14 +149,14 @@ public abstract class Expression implements Serializable {
 				return new Assignment(new Pair(cdr.getCar(),
 						analyzePair(cdr.getCdr())));
 			} else if ("if".equals(form)) {
-				// Pass all analyzed avlues to the If.
+				// Pass all analyzed values to the If.
 				return new If(analyzePair(cdr));
 			} else if ("quote".equals(form)) {
 				// Pass the first argument to the form and analyze it.
 				return new Quote(cdr.getCar()).analyze();
 			} else if ("begin".equals(form)) {
 				// Pass all analyzed values to the Begin.
-				return new Begin(analyzePair(cdr));
+				return new Begin(analyzePair(cdr), false);
 			} else if ("lambda".equals(form)) {
 				// Pass the first argument as the bindings, and then
 				// the analyzed arguments as the result.
@@ -163,6 +164,8 @@ public abstract class Expression implements Serializable {
 						Marshall.getPair(analyzePair(cdr.getCdr())));
 			} else if ("define-macro".equals(form)){
 				return MacroDefinition.getInstance();
+			} else if ("let".equals(form)){
+				return Let.getInstance();
 			}
 		}
 		return null;

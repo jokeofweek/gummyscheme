@@ -1,5 +1,7 @@
 package com.gummy.core;
 
+import java.io.PrintStream;
+import java.io.PushbackInputStream;
 import java.util.Map.Entry;
 
 import com.gummy.types.Pair;
@@ -34,6 +36,8 @@ public class Writer {
 			return "()";
 		} else if (o instanceof Procedure) {
 			return "<#procedure>";
+		} else if (o instanceof PushbackInputStream || o instanceof PrintStream) {
+			return "#<input-output-port>";
 		}
 
 		return o.toString();

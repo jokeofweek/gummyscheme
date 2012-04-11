@@ -41,9 +41,12 @@ public class Application extends Expression {
 	public Application(Object arguments) {
 		Pair allArguments = Marshall.getPair(arguments);
 		this.procedure = allArguments.getCar();
-		this.arguments = Pair.expand(Marshall.getPair(allArguments.getCdr()));
+		this.arguments = Marshall.getPair(allArguments.getCdr()).expand();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.gummy.types.Expression#eval(com.gummy.core.Environment)
+	 */
 	@Override
 	public Object eval(Environment environment) {
 		return Marshall.getProcedure(Expression.eval(procedure, environment))

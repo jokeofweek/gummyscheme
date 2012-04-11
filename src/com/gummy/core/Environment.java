@@ -132,8 +132,8 @@ public class Environment {
 		// Iterate through the environments rather then recursing to prevent
 		// the stack blowing due to a large environment chain.
 		do {
-			if (values.containsKey(symbol)) {
-				values.put(symbol, value);
+			if (current.values.containsKey(symbol)) {
+				current.values.put(symbol, value);
 				return;
 			}
 		} while ((current = current.getParent()) != null);

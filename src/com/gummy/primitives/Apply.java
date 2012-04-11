@@ -15,6 +15,6 @@ public class Apply extends Procedure {
 
 		return Marshall.getProcedure(
 				Expression.eval(arguments.get(0), environment)).apply(
-				environment, Pair.expand(Marshall.getPair(analyzed)));
+				environment, Marshall.getPair(analyzed).expand());
 	}
 }

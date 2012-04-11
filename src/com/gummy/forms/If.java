@@ -32,9 +32,12 @@ public class If extends Expression {
 	private List<Object> arguments;
 
 	public If(Object arguments) {
-		this.arguments = Pair.expand(Marshall.getPair(arguments));
+		this.arguments = Marshall.getPair(arguments).expand();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.gummy.types.Expression#eval(com.gummy.core.Environment)
+	 */
 	@Override
 	public Object eval(Environment environment) {
 		if (Marshall
