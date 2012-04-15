@@ -268,7 +268,7 @@ public class Reader {
 
 	/**
 	 * This skips all whitespace from a stream (assuming we are not currently in
-	 * a string).
+	 * a string). Note that it also skips comments.
 	 * 
 	 * @param in
 	 *            The stream to advance.
@@ -285,12 +285,38 @@ public class Reader {
 		while ((c = in.read()) != -1) {
 			curChar = (char) c;
 
+			// If character is a semi colon, skip the rest of the line
 			// If character is not a whitespace character, unread and exit
-			if (curChar != ' ' && curChar != '\n' && curChar != '\r'
+			if (curChar == ';') {
+				skipLine(in);
+			} else if (curChar != ' ' && curChar != '\n' && curChar != '\r'
 					&& curChar != '\t') {
 				in.unread(c);
 				return true;
 			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * This skips the remainder of a line and places the stream at the beginning
+	 * of the next line, or once the stream has reached the end.
+	 * 
+	 * @param in
+	 *            The stream to read from.
+	 * @return A boolean is returned stating whether we are at the next line. If
+	 *         false is returned, that means we have reached end of file.
+	 * @throws IOException
+	 *             if an error occurs while reading.
+	 */
+	private static boolean skipLine(PushbackInputStream in) throws IOException {
+		int c;
+
+		while ((c = in.read()) != -1) {
+			// Read until we reach a \n, which has an ASCII value of 10.
+			if (c == 10)
+				return true;
 		}
 
 		return false;
