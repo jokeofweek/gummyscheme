@@ -162,13 +162,33 @@ public abstract class Expression implements Serializable {
 				// the analyzed arguments as the result.
 				return new Lambda(cdr.getCar(),
 						Marshall.getPair(analyzePair(cdr.getCdr())));
-			} else if ("define-macro".equals(form)){
+			} else if ("define-macro".equals(form)) {
 				return MacroDefinition.getInstance();
-			} else if ("let".equals(form)){
+			} else if ("let".equals(form)) {
 				return Let.getInstance();
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * This compares two objects, determining if they are equal or not.
+	 * 
+	 * @param obj1
+	 * @param obj2
+	 * @return True if the objects have the same reference (or are both null),
+	 *         or if the {@link Object#equals(Object)} method of the first
+	 *         parameter returns true for the second parameter.
+	 */
+	public static boolean equals(Object obj1, Object obj2) {
+		if (obj1 == obj2)
+			return Boolean.TRUE;
+
+		if (obj1 == null || obj2 == null)
+			return Boolean.FALSE;
+
+		return (Marshall.getJavaObject(obj1).equals(Marshall
+				.getJavaObject(obj2)));
 	}
 
 }

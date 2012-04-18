@@ -9,8 +9,8 @@ import com.gummy.types.Procedure;
 
 /**
  * This equality check takes more details into consideration then the
- * {@link Eqv} procedure. It makes use of the {@link Object#equals(Object)}
- * checks.
+ * {@link Eqv} procedure. It makes use of the
+ * {@link Expression#equals(Object, Object)} method.
  * 
  * @author Dominic Charley-Roy
  * 
@@ -28,24 +28,10 @@ public class Equal extends Procedure {
 	@Override
 	public Object apply(Environment environment, List<Object> arguments) {
 		// Get the two arguments
-		Object first = Expression.eval(arguments.get(0), environment);
-		Object second = Expression.eval(arguments.get(1), environment);
+		return Expression.equals(
+				Expression.eval(arguments.get(0), environment),
+				Expression.eval(arguments.get(1), environment));
 
-		// Pointer comparison
-		if (first == second)
-			return Boolean.TRUE;
-
-		// Null comparison to prevent error. We can exit early here with a false
-		// as we know that they are not equal references.
-		if (first == null || second == null)
-			return Boolean.FALSE;
-
-		// If they are strings (char arrays), we must convert them to strings.
-		if (first instanceof char[] && second instanceof char[])
-			return new String((char[]) first).equals(new String((char[]) second));
-		
-		// Value comparison
-		return first.equals(second);
 	}
 
 }

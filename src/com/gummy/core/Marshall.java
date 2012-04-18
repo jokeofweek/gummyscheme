@@ -60,25 +60,38 @@ public class Marshall {
 		else
 			throw new TypeException(o, Symbol.class);
 	}
-	
-	public static AnalyzedForm getAnalyzedForm(Object o){
+
+	public static AnalyzedForm getAnalyzedForm(Object o) {
 		if (o instanceof AnalyzedForm)
 			return (AnalyzedForm) o;
 		else
 			throw new TypeException(o, AnalyzedForm.class);
 	}
 
-	public static PushbackInputStream getInputPort(Object o){
+	public static PushbackInputStream getInputPort(Object o) {
 		if (o instanceof PushbackInputStream)
 			return (PushbackInputStream) o;
 		else
 			throw new TypeException(o, PushbackInputStream.class);
 	}
-	
-	public static PrintStream getOutputPort(Object o){
+
+	public static PrintStream getOutputPort(Object o) {
 		if (o instanceof PrintStream)
 			return (PrintStream) o;
 		else
 			throw new TypeException(o, PrintStream.class);
+	}
+
+	/**
+	 * This method returns the Java version of an object for simpler processing.
+	 * 
+	 * @param o
+	 *            The object to convert.
+	 * @return The converted object.
+	 */
+	public static Object getJavaObject(Object o) {
+		if (o instanceof char[])
+			return new String((char[]) o);
+		return o;
 	}
 }
