@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gummy.core.Environment;
+import com.gummy.core.Marshall;
 import com.gummy.core.Writer;
 
 public class Pair extends Expression {
@@ -37,7 +38,7 @@ public class Pair extends Expression {
 	public List<Object> expand() {
 		List<Object> objects = new ArrayList<Object>();
 		Pair pair = this;
-		
+
 		// Iterate through until we either reach a pair and not a list,
 		// or we reach the empty list.
 		while (pair != Pair.EMPTY_LIST) {
@@ -144,6 +145,28 @@ public class Pair extends Expression {
 
 		return new Pair(Expression.eval(this.car, environment),
 				Expression.eval(this.cdr, environment));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this)
+			return Boolean.TRUE;
+
+		if (obj == null)
+			return Boolean.FALSE;
+
+		if (!(obj instanceof Pair))
+			return Boolean.FALSE;
+
+		return Marshall.getJavaObject(car).equals(
+				Marshall.getJavaObject(((Pair) obj).car))
+				&& Marshall.getJavaObject(cdr).equals(
+						Marshall.getJavaObject(((Pair) obj).cdr));
 	}
 
 }
