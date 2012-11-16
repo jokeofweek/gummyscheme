@@ -64,3 +64,13 @@
 	(if (car rest)
 	    #t
 	  (apply or (cdr rest)))))
+
+; syntactic sugar
+(define-macro (when pred . body)
+  `(if ,pred
+       (begin ,@body)))
+
+(define-macro (unless pred . body)
+  `(if (not ,pred)
+       (begin ,@body)))
+	
