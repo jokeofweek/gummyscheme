@@ -53,6 +53,7 @@ public class Environment {
 	 */
 	public static void initialize(Environment environment) {
 		environment.defineValue(Symbol.getSymbol("apply"), new Apply());
+		environment.defineValue(Symbol.getSymbol("error"), new com.gummy.primitives.Error());
 		
 		environment.defineValue(Symbol.getSymbol("cons"), new Cons());
 		environment.defineValue(Symbol.getSymbol("list"),
