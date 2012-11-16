@@ -21,6 +21,8 @@ import com.gummy.types.Procedure;
  */
 public class Load extends Procedure {
 
+	private static final long serialVersionUID = -822662638363742317L;
+
 	/* (non-Javadoc)
 	 * @see com.gummy.types.Procedure#apply(com.gummy.core.Environment, java.util.List)
 	 */

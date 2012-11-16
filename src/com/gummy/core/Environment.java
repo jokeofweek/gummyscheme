@@ -56,8 +56,6 @@ public class Environment {
 		environment.defineValue(Symbol.getSymbol("error"), new com.gummy.primitives.Error());
 		
 		environment.defineValue(Symbol.getSymbol("cons"), new Cons());
-		environment.defineValue(Symbol.getSymbol("list"),
-				new com.gummy.primitives.list.List());
 		environment.defineValue(Symbol.getSymbol("car"), new Car());
 		environment.defineValue(Symbol.getSymbol("cdr"), new Cdr());
 

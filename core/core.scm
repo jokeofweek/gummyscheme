@@ -4,6 +4,8 @@
 (define (compose f g)
   (lambda (arg)
     (f (g arg))))
+	
+(define (list . rest) rest)
   
 (define caar (compose car car))
 (define cadr (compose car cdr)) 
@@ -48,3 +50,17 @@
 	(if (eqv? obj #f)
 	    #t
       #f)))
+
+(define (and . rest)
+  (if (null? rest)
+      #t
+	(if (car rest)
+	    (apply and (cdr rest))
+	  #f)))
+
+(define (or . rest)
+  (if (null? rest)
+      #f
+	(if (car rest)
+	    #t
+	  (apply or (cdr rest)))))

@@ -1,14 +1,9 @@
 package com.gummy.forms.expansion;
 
-import com.gummy.core.Environment;
-import com.gummy.core.Marshall;
 import com.gummy.forms.Definition;
-import com.gummy.forms.Lambda;
-import com.gummy.types.Constant;
 import com.gummy.types.Expansion;
 import com.gummy.types.Expression;
 import com.gummy.types.Pair;
-import com.gummy.types.Unquote;
 
 /**
  * This expansion is similar to the <i>define-macro</i> special form in Gambit
@@ -27,6 +22,7 @@ import com.gummy.types.Unquote;
  */
 public class MacroDefinition extends Expansion {
 
+	private static final long serialVersionUID = -426130756147564691L;
 	private static MacroDefinition instance = null;
 
 	private MacroDefinition() {
