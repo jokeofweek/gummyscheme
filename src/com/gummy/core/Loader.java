@@ -70,7 +70,7 @@ public class Loader {
 		String retVal;
 
 		// Read expressions from the in stream
-		List<Object> expressions = (LinkedList<Object>) in.readObject();
+		List<Object> expressions = (List<Object>) in.readObject();
 
 		// Display the return value of each value if it is not empty
 		try {

@@ -1,14 +1,19 @@
 package com.gummy.forms.expansion;
 
+import com.gummy.forms.Application;
 import com.gummy.forms.Definition;
+import com.gummy.forms.Macro;
+import com.gummy.types.AnalyzedForm;
 import com.gummy.types.Expansion;
 import com.gummy.types.Expression;
 import com.gummy.types.Pair;
+import com.gummy.types.Symbol;
+import com.gummy.types.Variable;
 
 /**
  * This expansion is similar to the <i>define-macro</i> special form in Gambit
  * Scheme and allows you to define a macro based on a list of arguments needed
- * and a template.
+ * and a template. It simply expands a template into a Macro expression.
  * 
  * Syntax:
  * 
@@ -48,9 +53,9 @@ public class MacroDefinition extends Expansion {
 	 */
 	@Override
 	public Object expand(Pair expressions) {
-		Object template = Expression.analyzePair(Expression
-				.analyzePair(expressions.getCdr()));
-		return new Definition(new Pair(expressions.getCar(), template));
+		// Expand to a Macro object.
+		return new Definition(new Pair(expressions.getCar(), new Pair(
+				new Macro((Pair)expressions.getCdr()), Pair.EMPTY_LIST)));
 	}
 
 }

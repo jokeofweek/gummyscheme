@@ -64,7 +64,7 @@ public abstract class Expression implements Serializable {
 		// Case by case analysis
 		if (o instanceof Symbol) {
 			// Symbol -> Variable
-			return new Variable((Symbol) o);
+			return Variable.getVariable((Symbol) o);
 		} else if (o instanceof AnalyzedForm) {
 			// AnalyzedForm -> result of analyze
 			return ((AnalyzedForm) o).analyze();
@@ -86,8 +86,8 @@ public abstract class Expression implements Serializable {
 					// If the form returned is an expansion, keep on expanding
 					// until we reach a non-expansion
 					while (form instanceof Expansion) {
-						form = ((Expansion) form).expand(Marshall.getPair(pair
-								.getCdr()));
+						form = ((Expansion) form).expand(Marshall
+								.getPair(pair.getCdr()));
 					}
 					return form;
 				}
@@ -113,6 +113,9 @@ public abstract class Expression implements Serializable {
 		if (pair instanceof Pair) {
 			if (pair == Pair.EMPTY_LIST) {
 				return Pair.EMPTY_LIST;
+			} else if (pair instanceof SplicedPair) {
+				return new SplicedPair(analyze(((Pair) pair).getCar()),
+						analyzePair(((Pair) pair).getCdr()));
 			} else {
 				return new Pair(analyze(((Pair) pair).getCar()),
 						analyzePair(((Pair) pair).getCdr()));

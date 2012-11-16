@@ -11,7 +11,6 @@ import com.gummy.types.Quasiquote;
 import com.gummy.types.Quote;
 import com.gummy.types.Symbol;
 import com.gummy.types.Unquote;
-
 public class Reader {
 
 	/**
@@ -71,11 +70,23 @@ public class Reader {
 		} else if (start == '`') {
 			return new Quasiquote(read(in, ReaderState.QUASIQUOTE));
 		} else if (start == ',') {
-			if (state != ReaderState.QUASIQUOTE) {
-				throw new InterpreterException(
-						"Cannot unquote value while not in quasiquote.");
+			// Determine if we are splicing or just unquoting
+			int c = in.read();
+			boolean splicing = false;
+			if ((char) c == '@') {
+				splicing = true;
+			} else if (c != -1) {
+				// Unread the character
+				in.unread(c);
 			}
-			return new Unquote(read(in, ReaderState.NORMAL));
+			
+			if (state != ReaderState.QUASIQUOTE) {
+				throw new InterpreterException("Cannot "
+						+ (splicing ? "unquote-splice" : "unquote")
+						+ " value while not in quasiquote.");
+			}
+			
+			return new Unquote(read(in, ReaderState.NORMAL), splicing);
 		} else {
 			// Unread the character and read a token.
 			in.unread((int) start);
@@ -97,8 +108,8 @@ public class Reader {
 	 * @throws InterpreterException
 	 *             If the pair is unbalanced.
 	 */
-	private static Object readPair(PushbackInputStream in, ReaderState state)
-			throws IOException {
+	private static Object readPair(PushbackInputStream in,
+			ReaderState state) throws IOException {
 		// Eat all whitespace
 		skipWhitespace(in);
 
@@ -141,7 +152,8 @@ public class Reader {
 	 * @throws InterpreterException
 	 *             If the string is unterminated.
 	 */
-	private static char[] readString(PushbackInputStream in) throws IOException {
+	private static char[] readString(PushbackInputStream in)
+			throws IOException {
 		StringBuilder builder = new StringBuilder();
 		char c;
 
@@ -165,7 +177,8 @@ public class Reader {
 	 * @throws IOException
 	 *             If an error occurs while reading.
 	 */
-	private static String readToken(PushbackInputStream in) throws IOException {
+	private static String readToken(PushbackInputStream in)
+			throws IOException {
 
 		StringBuilder builder = new StringBuilder();
 		int c;
@@ -262,8 +275,8 @@ public class Reader {
 	 * @return True if the character is the end of a token or not.
 	 */
 	private static boolean isEndOfTokenChar(char c) {
-		return (c == ' ' || c == '\r' || c == '\n' || c == '\t' || c == ';'
-				|| c == ')' || c == '(');
+		return (c == ' ' || c == '\r' || c == '\n' || c == '\t'
+				|| c == ';' || c == ')' || c == '(');
 	}
 
 	/**
@@ -289,8 +302,8 @@ public class Reader {
 			// If character is not a whitespace character, unread and exit
 			if (curChar == ';') {
 				skipLine(in);
-			} else if (curChar != ' ' && curChar != '\n' && curChar != '\r'
-					&& curChar != '\t') {
+			} else if (curChar != ' ' && curChar != '\n'
+					&& curChar != '\r' && curChar != '\t') {
 				in.unread(c);
 				return true;
 			}
@@ -310,7 +323,8 @@ public class Reader {
 	 * @throws IOException
 	 *             if an error occurs while reading.
 	 */
-	private static boolean skipLine(PushbackInputStream in) throws IOException {
+	private static boolean skipLine(PushbackInputStream in)
+			throws IOException {
 		int c;
 
 		while ((c = in.read()) != -1) {
@@ -331,7 +345,8 @@ public class Reader {
 	 * @throws IOException
 	 *             if an error occurs while reading.
 	 */
-	public static Object readChar(PushbackInputStream in) throws IOException {
+	public static Object readChar(PushbackInputStream in)
+			throws IOException {
 		int read = in.read();
 		if (read == -1)
 			return Constant.EOF;
@@ -348,7 +363,8 @@ public class Reader {
 	 * @throws IOException
 	 *             if an error occurs while reading.
 	 */
-	public static Object peekChar(PushbackInputStream in) throws IOException {
+	public static Object peekChar(PushbackInputStream in)
+			throws IOException {
 		int read = in.read();
 		if (read == -1) {
 			return Constant.EOF;

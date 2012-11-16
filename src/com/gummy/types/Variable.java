@@ -1,13 +1,13 @@
 package com.gummy.types;
 
+import java.util.Hashtable;
+
 import com.gummy.core.Environment;
 
 public class Variable extends Expression {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8708738631680544069L;
+	private static Hashtable<Symbol, Variable> variables = new Hashtable<Symbol, Variable>();
 	private Symbol symbol;
 
 	/**
@@ -16,7 +16,7 @@ public class Variable extends Expression {
 	 * @param symbol
 	 *            The symbol representing the variable.
 	 */
-	public Variable(Symbol symbol) {
+	private Variable(Symbol symbol) {
 		this.symbol = symbol;
 	}
 
@@ -45,5 +45,25 @@ public class Variable extends Expression {
 	public String toString() {
 		// Return the symbol's string representation
 		return this.symbol.getSymbol();
+	}
+
+	/**
+	 * Fetches a given variable instance for the symbol. Since variables can be
+	 * cached, this minimizes memory usage.
+	 * 
+	 * @param symbol
+	 * 		The symbol representing the variable.
+	 * @return
+	 * 		The variable primitive associated with the symbol.
+	 */
+	public synchronized static Variable getVariable(Symbol symbol) {
+		Variable v = variables.get(symbol);
+
+		if (v == null) {
+			v = new Variable(symbol);
+			variables.put(symbol, v);
+		}
+
+		return v;
 	}
 }

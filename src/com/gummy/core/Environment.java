@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 import com.gummy.primitives.Apply;
+import com.gummy.primitives.Eval;
 import com.gummy.primitives.io.CloseInputPort;
 import com.gummy.primitives.io.CloseOutputPort;
 import com.gummy.primitives.io.Load;
@@ -53,6 +54,7 @@ public class Environment {
 	 */
 	public static void initialize(Environment environment) {
 		environment.defineValue(Symbol.getSymbol("apply"), new Apply());
+		environment.defineValue(Symbol.getSymbol("eval"), new Eval());
 		environment.defineValue(Symbol.getSymbol("error"), new com.gummy.primitives.Error());
 		
 		environment.defineValue(Symbol.getSymbol("cons"), new Cons());

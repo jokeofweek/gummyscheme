@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 public class Symbol implements Serializable {
 
+	private static final long serialVersionUID = -1740677712871134568L;
 	private static Hashtable<String, Symbol> symbols = new Hashtable<String, Symbol>();
 
 	public String symbol;

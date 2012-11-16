@@ -83,7 +83,7 @@ public class Let extends Expansion {
 			// Create a Begin which will extend the environment, define the
 			// expanded procedure and then apply it.
 			return new Begin(new Pair(definition, new Application(new Pair(
-					new Variable(name), argsPair))), true);
+					Variable.getVariable(name), argsPair))), true);
 		}
 	}
 
